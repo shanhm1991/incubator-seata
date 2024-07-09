@@ -71,7 +71,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
 
     private TmNettyRemotingClient(NettyClientConfig nettyClientConfig,
                                   EventExecutorGroup eventExecutorGroup,
-                                  ThreadPoolExecutor messageExecutor) {
+                                  MsgThreadPoolExecutor messageExecutor) {
         super(nettyClientConfig, eventExecutorGroup, messageExecutor, NettyPoolKey.TransactionRole.TMROLE);
         this.signer = EnhancedServiceLoader.load(AuthSigner.class);
         // set enableClientBatchSendRequest
@@ -128,7 +128,7 @@ public final class TmNettyRemotingClient extends AbstractNettyRemotingClient {
             synchronized (TmNettyRemotingClient.class) {
                 if (instance == null) {
                     NettyClientConfig nettyClientConfig = new NettyClientConfig();
-                    final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
+                    final MsgThreadPoolExecutor messageExecutor = new MsgThreadPoolExecutor(
                             nettyClientConfig.getClientWorkerThreads(), nettyClientConfig.getClientWorkerThreads(),
                             KEEP_ALIVE_TIME, TimeUnit.SECONDS,
                             new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),

@@ -15,6 +15,7 @@
  */
 import io.seata.common.XID;
 import io.seata.common.util.NetUtil;
+import io.seata.core.rpc.netty.MsgThreadPoolExecutor;
 import io.seata.core.rpc.netty.NettyRemotingServer;
 import io.seata.server.UUIDGenerator;
 import io.seata.server.coordinator.DefaultCoordinator;
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ServerTest {
 
-    private static final ThreadPoolExecutor workingThreads = new ThreadPoolExecutor(100, 500, 500, TimeUnit.SECONDS,
+    private static final MsgThreadPoolExecutor workingThreads = new MsgThreadPoolExecutor(100, 500, 500, TimeUnit.SECONDS,
             new LinkedBlockingQueue(20000), new ThreadPoolExecutor.CallerRunsPolicy());
 
 

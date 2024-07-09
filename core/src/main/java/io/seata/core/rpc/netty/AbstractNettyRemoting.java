@@ -67,7 +67,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
     /**
      * The Message executor.
      */
-    protected final ThreadPoolExecutor messageExecutor;
+    protected final MsgThreadPoolExecutor messageExecutor;
 
     /**
      * Id generator of this remoting
@@ -125,7 +125,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
         }, TIMEOUT_CHECK_INTERVAL, TIMEOUT_CHECK_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
-    public AbstractNettyRemoting(ThreadPoolExecutor messageExecutor) {
+    public AbstractNettyRemoting(MsgThreadPoolExecutor messageExecutor) {
         this.messageExecutor = messageExecutor;
     }
 

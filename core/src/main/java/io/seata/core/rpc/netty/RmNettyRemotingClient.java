@@ -88,7 +88,7 @@ public final class RmNettyRemotingClient extends AbstractNettyRemotingClient {
     }
 
     private RmNettyRemotingClient(NettyClientConfig nettyClientConfig, EventExecutorGroup eventExecutorGroup,
-                                  ThreadPoolExecutor messageExecutor) {
+                                  MsgThreadPoolExecutor messageExecutor) {
         super(nettyClientConfig, eventExecutorGroup, messageExecutor, TransactionRole.RMROLE);
         // set enableClientBatchSendRequest
         this.enableClientBatchSendRequest = ConfigurationFactory.getInstance().getBoolean(ConfigurationKeys.ENABLE_RM_CLIENT_BATCH_SEND_REQUEST,
@@ -129,7 +129,7 @@ public final class RmNettyRemotingClient extends AbstractNettyRemotingClient {
             synchronized (RmNettyRemotingClient.class) {
                 if (instance == null) {
                     NettyClientConfig nettyClientConfig = new NettyClientConfig();
-                    final ThreadPoolExecutor messageExecutor = new ThreadPoolExecutor(
+                    final MsgThreadPoolExecutor messageExecutor = new MsgThreadPoolExecutor(
                         nettyClientConfig.getClientWorkerThreads(), nettyClientConfig.getClientWorkerThreads(),
                         KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(MAX_QUEUE_SIZE),
                         new NamedThreadFactory(nettyClientConfig.getRmDispatchThreadPrefix(),

@@ -120,7 +120,7 @@ public abstract class AbstractNettyRemotingClient extends AbstractNettyRemoting 
     }
 
     public AbstractNettyRemotingClient(NettyClientConfig nettyClientConfig, EventExecutorGroup eventExecutorGroup,
-                                       ThreadPoolExecutor messageExecutor, NettyPoolKey.TransactionRole transactionRole) {
+                                       MsgThreadPoolExecutor messageExecutor, NettyPoolKey.TransactionRole transactionRole) {
         super(messageExecutor);
         this.transactionRole = transactionRole;
         clientBootstrap = new NettyClientBootstrap(nettyClientConfig, eventExecutorGroup, transactionRole);
