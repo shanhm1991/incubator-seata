@@ -32,6 +32,9 @@
         <spring-boot-for-server.version>2.7.17</spring-boot-for-server.version>
         <spring-framework-for-server.version>5.3.30</spring-framework-for-server.version>
         <snakeyaml-for-server.version>2.0</snakeyaml-for-server.version>
+        <mysql.jdbc.version>5.1.42</mysql.jdbc.version>
+        <mysql8.jdbc.version>8.0.27</mysql8.jdbc.version>
+        <dependencies.copy.skip>false</dependencies.copy.skip>
     </properties>
 
     <dependencyManagement>
@@ -253,6 +256,7 @@
     </dependencies>
 
     <build>
+        <finalName>seata-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -397,6 +401,29 @@
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>io.seata.server.ServerApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <attach>false</attach>
+                    <includes>
+                        <include>
+                            <groupId>null</groupId>
+                            <artifactId>null</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>

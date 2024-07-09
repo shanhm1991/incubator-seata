@@ -135,7 +135,7 @@
         <image.name>${IMAGE_NAME}</image.name>
         <image.tags>latest</image.tags>
 
-        <dependencies.copy.skip>true</dependencies.copy.skip>
+        <dependencies.copy.skip>false</dependencies.copy.skip>
     </properties>
 
     <build>
