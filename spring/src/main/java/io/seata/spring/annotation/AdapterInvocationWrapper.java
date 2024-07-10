@@ -52,11 +52,11 @@ public class AdapterInvocationWrapper implements InvocationWrapper {
     }
 
     @Override
-    public Object proceed() {
+    public Object proceed() throws Throwable {
         try {
             return invocation.proceed();
         } catch (Throwable throwable) {
-            throw new RuntimeException("try to proceed invocation error", throwable);
+            throw throwable;
         }
     }
 }

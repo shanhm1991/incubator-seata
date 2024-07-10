@@ -37,6 +37,7 @@ import io.seata.core.rpc.processor.Pair;
 import io.seata.core.rpc.processor.RemotingProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * The type abstract remoting server.
@@ -56,7 +57,7 @@ public abstract class AbstractNettyRemotingServer extends AbstractNettyRemoting 
         serverBootstrap.start();
     }
 
-    public AbstractNettyRemotingServer(MsgThreadPoolExecutor messageExecutor, NettyServerConfig nettyServerConfig) {
+    public AbstractNettyRemotingServer(ThreadPoolExecutor messageExecutor, NettyServerConfig nettyServerConfig) {
         super(messageExecutor);
         serverBootstrap = new NettyServerBootstrap(nettyServerConfig);
         serverBootstrap.setChannelHandlers(new ServerHandler());
@@ -166,7 +167,14 @@ public abstract class AbstractNettyRemotingServer extends AbstractNettyRemoting 
             if (!(msg instanceof RpcMessage)) {
                 return;
             }
-            processMessage(ctx, (RpcMessage) msg);
+
+            RpcMessage rpcMessage = (RpcMessage)msg;
+            if(rpcMessage.getRid() != null){
+                MDC.put("rid", rpcMessage.getRid());
+            }else{
+                MDC.remove("rid");
+            }
+            processMessage(ctx, rpcMessage);
         }
 
         @Override

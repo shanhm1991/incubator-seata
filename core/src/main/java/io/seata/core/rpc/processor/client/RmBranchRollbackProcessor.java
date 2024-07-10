@@ -25,6 +25,7 @@ import io.seata.core.rpc.TransactionMessageHandler;
 import io.seata.core.rpc.processor.RemotingProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * process TC do global rollback command.
@@ -52,10 +53,12 @@ public class RmBranchRollbackProcessor implements RemotingProcessor {
     public void process(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
         String remoteAddress = NetUtil.toStringAddress(ctx.channel().remoteAddress());
         Object msg = rpcMessage.getBody();
+        MDC.put("rid", rpcMessage.getRid());
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("rm handle branch rollback process:" + msg);
         }
         handleBranchRollback(rpcMessage, remoteAddress, (BranchRollbackRequest) msg);
+        MDC.remove("rid");
     }
 
     private void handleBranchRollback(RpcMessage request, String serverAddress, BranchRollbackRequest branchRollbackRequest) {

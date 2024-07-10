@@ -62,6 +62,7 @@ import io.seata.core.rpc.netty.NettyServerConfig;
 import io.seata.core.rpc.processor.RemotingProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * process RM/TM client request message.
@@ -119,7 +120,9 @@ public class ServerOnRequestProcessor implements RemotingProcessor, Disposable {
     @Override
     public void process(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
         if (ChannelManager.isRegistered(ctx.channel())) {
+            MDC.put("rid", rpcMessage.getRid());
             onRequestMessage(ctx, rpcMessage);
+            MDC.remove("rid");
         } else {
             try {
                 if (LOGGER.isInfoEnabled()) {

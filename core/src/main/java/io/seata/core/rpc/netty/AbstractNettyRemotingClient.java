@@ -61,6 +61,7 @@ import io.seata.discovery.loadbalance.LoadBalanceFactory;
 import io.seata.discovery.registry.RegistryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import static io.seata.common.exception.FrameworkErrorCode.NoAvailableService;
 
@@ -120,7 +121,7 @@ public abstract class AbstractNettyRemotingClient extends AbstractNettyRemoting 
     }
 
     public AbstractNettyRemotingClient(NettyClientConfig nettyClientConfig, EventExecutorGroup eventExecutorGroup,
-                                       MsgThreadPoolExecutor messageExecutor, NettyPoolKey.TransactionRole transactionRole) {
+                                       ThreadPoolExecutor messageExecutor, NettyPoolKey.TransactionRole transactionRole) {
         super(messageExecutor);
         this.transactionRole = transactionRole;
         clientBootstrap = new NettyClientBootstrap(nettyClientConfig, eventExecutorGroup, transactionRole);
@@ -408,7 +409,14 @@ public abstract class AbstractNettyRemotingClient extends AbstractNettyRemoting 
             if (!(msg instanceof RpcMessage)) {
                 return;
             }
-            processMessage(ctx, (RpcMessage) msg);
+
+            RpcMessage rpcMessage = (RpcMessage)msg;
+            if(rpcMessage.getRid() != null){
+                MDC.put("rid", rpcMessage.getRid());
+            }else{
+                MDC.remove("rid");
+            }
+            processMessage(ctx, rpcMessage);
         }
 
         @Override

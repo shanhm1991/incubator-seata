@@ -169,6 +169,14 @@ public class RpcMessage implements Serializable {
         this.messageType = messageType;
     }
 
+    public String getRid(){
+        return headMap.get("rid");
+    }
+
+    public void setRid(String rid){
+        this.headMap.put("rid", rid);
+    }
+
     @Override
     public String toString() {
         return StringUtils.toString(this);

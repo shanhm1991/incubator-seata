@@ -29,6 +29,7 @@ import io.seata.core.rpc.processor.RemotingProcessor;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * process RM client registry message.
@@ -54,7 +55,9 @@ public class RegRmProcessor implements RemotingProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
+        MDC.put("rid", rpcMessage.getRid());
         onRegRmMessage(ctx, rpcMessage);
+        MDC.remove("rid");
     }
 
     private void onRegRmMessage(ChannelHandlerContext ctx, RpcMessage rpcMessage) {

@@ -67,7 +67,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
     /**
      * The Message executor.
      */
-    protected final MsgThreadPoolExecutor messageExecutor;
+    protected final ThreadPoolExecutor messageExecutor;
 
     /**
      * Id generator of this remoting
@@ -125,7 +125,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
         }, TIMEOUT_CHECK_INTERVAL, TIMEOUT_CHECK_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
-    public AbstractNettyRemoting(MsgThreadPoolExecutor messageExecutor) {
+    public AbstractNettyRemoting(ThreadPoolExecutor messageExecutor) {
         this.messageExecutor = messageExecutor;
     }
 
@@ -238,6 +238,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
         rpcMessage.setCodec(ProtocolConstants.CONFIGURED_CODEC);
         rpcMessage.setCompressor(ProtocolConstants.CONFIGURED_COMPRESSOR);
         rpcMessage.setBody(msg);
+        rpcMessage.setRid(MDC.get("rid"));
         return rpcMessage;
     }
 
@@ -248,6 +249,7 @@ public abstract class AbstractNettyRemoting implements Disposable {
         rpcMsg.setCompressor(rpcMessage.getCompressor());
         rpcMsg.setBody(msg);
         rpcMsg.setId(rpcMessage.getId());
+        rpcMsg.setRid(rpcMessage.getRid());
         return rpcMsg;
     }
 

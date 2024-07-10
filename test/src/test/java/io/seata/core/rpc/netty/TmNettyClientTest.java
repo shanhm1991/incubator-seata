@@ -40,8 +40,8 @@ import static io.seata.common.DefaultValues.DEFAULT_SEATA_GROUP;
  */
 public class TmNettyClientTest extends AbstractServerTest {
 
-    public static MsgThreadPoolExecutor initMessageExecutor() {
-        return new MsgThreadPoolExecutor(100, 500, 500, TimeUnit.SECONDS,
+    public static ThreadPoolExecutor initMessageExecutor() {
+        return new ThreadPoolExecutor(100, 500, 500, TimeUnit.SECONDS,
                 new LinkedBlockingQueue(20000), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
@@ -52,7 +52,7 @@ public class TmNettyClientTest extends AbstractServerTest {
      */
     @Test
     public void testDoConnect() throws Exception {
-        MsgThreadPoolExecutor workingThreads = initMessageExecutor();
+        ThreadPoolExecutor workingThreads = initMessageExecutor();
         NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(workingThreads);
         //start services server first
         Thread thread = new Thread(() -> {
@@ -89,7 +89,7 @@ public class TmNettyClientTest extends AbstractServerTest {
      */
     @Test
     public void testReconnect() throws Exception {
-        MsgThreadPoolExecutor workingThreads = initMessageExecutor();
+        ThreadPoolExecutor workingThreads = initMessageExecutor();
         NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(workingThreads);
         //start services server first
         Thread thread = new Thread(() -> {
@@ -119,7 +119,7 @@ public class TmNettyClientTest extends AbstractServerTest {
 
     @Test
     public void testSendMsgWithResponse() throws Exception {
-        MsgThreadPoolExecutor workingThreads = initMessageExecutor();
+        ThreadPoolExecutor workingThreads = initMessageExecutor();
         NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(workingThreads);
         new Thread(() -> {
             SessionHolder.init(null);

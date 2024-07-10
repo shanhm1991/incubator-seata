@@ -625,55 +625,55 @@
         </resources>
         <plugins>
             <!-- Shade -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-shade-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>shade</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <createSourcesJar>true</createSourcesJar>-->
-<!--                            <promoteTransitiveDependencies>false</promoteTransitiveDependencies>-->
-<!--                            <keepDependenciesWithProvidedScope>false</keepDependenciesWithProvidedScope>-->
-<!--                            <createDependencyReducedPom>true</createDependencyReducedPom>-->
-<!--                            <artifactSet>-->
-<!--                                <includes>-->
-<!--                                    <include>io.seata:*</include>-->
-<!--                                </includes>-->
-<!--                            </artifactSet>-->
-<!--                            <transformers>-->
-<!--                                &lt;!&ndash; META-INF/services &ndash;&gt;-->
-<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
-<!--                                &lt;!&ndash; spring相关 &ndash;&gt;-->
-<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-<!--                                    <resource>META-INF/spring.handlers</resource>-->
-<!--                                </transformer>-->
-<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-<!--                                    <resource>META-INF/spring.schemas</resource>-->
-<!--                                </transformer>-->
-<!--                            </transformers>-->
-<!--                            <filters>-->
-<!--                                <filter>-->
-<!--                                    <artifact>*:*</artifact>-->
-<!--                                    <excludes>-->
-<!--                                        <exclude>file.conf</exclude>-->
-<!--                                        <exclude>registry.conf</exclude>-->
-<!--                                    </excludes>-->
-<!--                                </filter>-->
-<!--                                <filter>-->
-<!--                                    <artifact>*:*</artifact>-->
-<!--                                    <excludes>-->
-<!--                                        <exclude>META-INF/maven/**</exclude>-->
-<!--                                    </excludes>-->
-<!--                                </filter>-->
-<!--                            </filters>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createSourcesJar>true</createSourcesJar>
+                            <promoteTransitiveDependencies>false</promoteTransitiveDependencies>
+                            <keepDependenciesWithProvidedScope>false</keepDependenciesWithProvidedScope>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>io.seata:*</include>
+                                </includes>
+                            </artifactSet>
+                            <transformers>
+                                <!-- META-INF/services -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <!-- spring相关 -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>file.conf</exclude>
+                                        <exclude>registry.conf</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/maven/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Easyj -->
             <plugin>
                 <groupId>icu.easyj.maven.plugins</groupId>

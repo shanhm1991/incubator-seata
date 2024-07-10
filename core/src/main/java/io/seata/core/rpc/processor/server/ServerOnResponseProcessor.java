@@ -31,6 +31,7 @@ import io.seata.core.rpc.netty.ChannelManager;
 import io.seata.core.rpc.processor.RemotingProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * handle RM/TM response message.
@@ -65,6 +66,7 @@ public class ServerOnResponseProcessor implements RemotingProcessor {
 
     @Override
     public void process(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
+        MDC.put("rid", rpcMessage.getRid());
         MessageFuture messageFuture = futures.remove(rpcMessage.getId());
         String receiveMsgLog = String.format("receive msg[single]: %s, clientIp: %s, vgroup: %s", rpcMessage.getBody(), NetUtil.toIpAddress(ctx.channel().remoteAddress()),
             ChannelManager.getContextFromIdentified(ctx.channel()).getTransactionServiceGroup());
@@ -88,6 +90,7 @@ public class ServerOnResponseProcessor implements RemotingProcessor {
                 }
             }
         }
+        MDC.remove("rid");
     }
 
     private void onResponseMessage(ChannelHandlerContext ctx, RpcMessage rpcMessage) {

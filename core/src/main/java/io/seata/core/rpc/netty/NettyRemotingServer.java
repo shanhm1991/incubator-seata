@@ -66,7 +66,7 @@ public class NettyRemotingServer extends AbstractNettyRemotingServer {
      *
      * @param messageExecutor   the message executor
      */
-    public NettyRemotingServer(MsgThreadPoolExecutor messageExecutor) {
+    public NettyRemotingServer(ThreadPoolExecutor messageExecutor) {
         super(messageExecutor, new NettyServerConfig());
     }
 
